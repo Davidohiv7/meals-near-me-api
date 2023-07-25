@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Client, LatLngLiteral } from '@googlemaps/google-maps-services-js';
+import { Client } from '@googlemaps/google-maps-services-js';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
