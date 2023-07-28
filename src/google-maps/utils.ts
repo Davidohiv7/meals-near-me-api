@@ -1,0 +1,2 @@
+export const GOOGLE_API_TIMEOUT = 1000;
+export const DEFAULT_RESTAURANT_RADIUS = 15000;

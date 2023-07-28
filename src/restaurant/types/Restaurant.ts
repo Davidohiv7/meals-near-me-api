@@ -1,7 +1,7 @@
 import { Geometry } from 'src/location/types/Location';
 
 export type GoogleRestaurant = {
-  placeId: number;
+  placeId: number | string;
   name: string;
   icon?: any;
   photos: string[];
@@ -11,3 +11,5 @@ export type GoogleRestaurant = {
   isClosedTemporarily?: boolean;
   geometry: Geometry;
 };
+
+export type GetRestaurantByLocationResponse = GoogleRestaurant[] | string;

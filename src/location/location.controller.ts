@@ -1,32 +1,27 @@
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  Param,
-  ParseEnumPipe,
-  ParseEnumPipeOptions,
-  UsePipes,
-} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { City } from './types/cities';
 import { LocationService } from './location.service';
-import { TransformLocationNamePipe } from './pipes/transform-location-name';
-import { Geometry } from 'src/location/types/Location';
+import { Geometry, GetLocationResponse } from 'src/location/types/Location';
+import {
+  GetParamLocationDto,
+  GetQueryLocationDto,
+} from './dto/get-location-dto';
 
 @Controller('location')
 export class LocationController {
   constructor(private locationService: LocationService) {}
 
-  @Get('/:city')
-  @UsePipes(new TransformLocationNamePipe())
-  getUser(
-    @Param(
-      'city',
-      new ParseEnumPipe(City, {
-        exceptionFactory: () => new BadRequestException('Location not found'),
-      }),
-    )
-    city: City,
-  ): Geometry {
-    return this.locationService.getLocation(city);
+  @Get(':city')
+  async getLocation(
+    @Param() params: GetParamLocationDto,
+    @Query() query: GetQueryLocationDto,
+  ): Promise<GetLocationResponse> {
+    const { mock = 'true' } = query;
+    const isMock = mock === 'true';
+    const { city } = params;
+    if (isMock) {
+      return await this.locationService.getMockLocation(city);
+    }
+    return await this.locationService.getGoogleMapsLocation(city);
   }
 }

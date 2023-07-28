@@ -1,7 +1,7 @@
 import { mockLocations } from 'assets/mockData/location';
 import { Geometry } from './types/Location';
 
-export const transformCityIndex = (city: string) => {
+const transformCityIndex = (city: string) => {
   if (!city) return '';
   return city.toLocaleLowerCase().replaceAll(' ', '_').replaceAll('-', '_');
 };
@@ -12,10 +12,10 @@ export const locationTransform = (result: any): Geometry => {
   return location;
 };
 
-export const locationRequest = (searchTerm: string): Geometry => {
-  const locationMock = mockLocations[searchTerm];
-  if (!locationMock) {
-    throw Error('Location not found');
+export const mockLocationRequest = (searchTerm: string): Geometry => {
+  const fixedTerm = transformCityIndex(searchTerm);
+  const locationMock = mockLocations[fixedTerm];
+  if (locationMock) {
+    return locationTransform(locationMock);
   }
-  return locationTransform(locationMock);
 };

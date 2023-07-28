@@ -14,3 +14,5 @@ export type MapCoordinates = {
   latitudeDelta: number;
   longitudeDelta: number;
 };
+
+export type GetLocationResponse = Geometry;
